@@ -242,8 +242,9 @@ $(document).ready(function() {
 
 
             var selectedDatum;
+            var lyr; 
 
-            var lyr; $('.typeahead').on('typeahead:selected', function(event, datum) {
+            $('.typeahead').on('typeahead:selected', function(event, datum) {
 
                 if (typeof(lyr) != 'undefined') {
                     map.removeLayer(lyr)
@@ -272,22 +273,4 @@ $(document).ready(function() {
             }) ;
 
 
-$('.slidertext').click(function(){
-    $('#myModalLabel2').text($(this).text());
-    $('#myModal2').modal();
 });
-
-
-	});
-function jssor_slider1_starter(containerId) {
-           var options = { 
-               $DragOrientation: 3,                                //[Optional] Orientation to drag slide, 0 no drag, 1 horizental, 2 vertical, 3 either, default value is 1 (Note that the $DragOrientation should be the same as $PlayOrientation when $DisplayPieces is greater than 1, or parking position is not 0)
-                $SlideDuration: 500,
-            $AutoPlay: true,
-              $ArrowNavigatorOptions: {
-                $Class: $JssorArrowNavigator$,
-                $ChanceToShow: 2
-            } 
-        };
-        var jssor_slider1 = new $JssorSlider$('slider1_container', options);
-}
