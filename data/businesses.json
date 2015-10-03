@@ -1,0 +1,48 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+
+        {
+            "type": "Feature",
+            "properties": {
+                "Name": "Gimme! Coffee",
+                "BusType": "Cafe",
+                "videoURL": "http://www.youtube.com/watch?v=aA2bhteq880",
+                "Description": "Gimme espresso bars are found in New York City and Upstate New York. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid molestiae perferendis vero tenetur eligendi aspernatur libero dolores laborum velit placeat!"
+
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [-76.499491, 42.444508]
+            }
+        }, {
+            "type": "Feature",
+            "properties": {
+                "Name": "Gorgers Subs",
+               "BusType": "Restaurant",
+                "videoURL": "http://www.youtube.com/watch?v=aA2bhteq880",
+                "Description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nulla ducimus unde nam magnam fugiat cupiditate nemo nostrum, vel aspernatur corrupti!"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [-76.499719, 42.439959]
+            }
+        }, {
+            "type": "Feature",
+            "properties": {
+                "Name": "Alternatives Federal Credit Union",
+               "BusType": "Bank",
+                "videoURL": "http://www.youtube.com/watch?v=aA2bhteq880",
+                "Description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur, temporibus nemo. Sit optio dolor, consequuntur deserunt quisquam magni, itaque doloremque?"
+
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [-76.510276, 42.439863]
+            }
+        }
+
+
+    ]
+
+}
