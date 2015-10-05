@@ -20,6 +20,32 @@ $(document).ready(function() {
         icon: 'building'
     });
 
+    //leaflet awesome marker mouseover hack fix, prevents additional mouseover/out events from flickering the popup
+    //the problem with mouseover/out events is documented here - https://github.com/lvoogdt/Leaflet.awesome-markers/issues/5
+    var filterIconEvent_mouseOutTimeouts = [];
+    var filterIconEvent = function(e, context, callback){
+        if($(e.originalEvent.target).is("div")){
+            console.log(e.originalEvent.target);
+            if(e.type === "mouseover"){
+                callback.call(context);
+            } else {
+                //its mouseout, and we need to set a timeout
+                filterIconEvent_mouseOutTimeouts.push(setTimeout(function(){
+                    callback.call(context);
+
+                    //if we have a successful mouse out, we should clear any residual mouseout timeouts
+                    filterIconEvent_mouseOutTimeouts = [];
+                },500));
+            } 
+        }
+
+        if($(e.originalEvent.target).is("i")){
+            if(e.type === "mouseover" && filterIconEvent_mouseOutTimeouts.length > 0){
+                clearTimeout(filterIconEvent_mouseOutTimeouts.pop());
+            } 
+        }
+    };
+
 
     var mapboxTiles = L.tileLayer('https://{s}.tiles.mapbox.com/v3/spatial.b625e395/{z}/{x}/{y}.png', {
         attribution: '<a href="http://www.mapbox.com/about/maps/" target="_blank">Terms &amp; Feedback</a>'
@@ -36,6 +62,8 @@ $(document).ready(function() {
     //TODO variable not used
     //var selectedDatum;
     var lyr; 
+
+
 
     //get the intial data
     var promise = $.getJSON("data/businesses.json");
@@ -73,10 +101,18 @@ $(document).ready(function() {
                     $('#descriptionText').text(feature.properties.Description);
                     $('#myModalLabel').text(feature.properties.Name);
                     $('#myModal').modal();
-                }).on('mouseover', function() {
-                    this.bindPopup(feature.properties.Name).openPopup();
-                }).on('mouseout', function() {
-                    this.closePopup();
+                }).on('mouseover', function(e) {
+                    filterIconEvent(e,this,function(){
+                        if(this.getPopup() && this.getPopup()._isOpen){
+                            return;
+                        } else {
+                            this.bindPopup(feature.properties.Name,{offset:new L.point(0, -30)}).openPopup();
+                        }
+                    });
+                }).on('mouseout', function(e) {
+                    filterIconEvent(e,this,function(){
+                        this.closePopup();
+                    });
                 });
             }
         });
@@ -96,10 +132,18 @@ $(document).ready(function() {
                     $('#descriptionText').text(feature.properties.Description);
                     $('#myModalLabel').text(feature.properties.Name);
                     $('#myModal').modal();
-                }).on('mouseover', function() {
-                    this.bindPopup(feature.properties.Name).openPopup();
-                }).on('mouseout', function() {
-                    this.closePopup();
+                }).on('mouseover', function(e) {
+                    filterIconEvent(e,this,function(){
+                        if(this.getPopup() && this.getPopup()._isOpen){
+                            return;
+                        } else {
+                            this.bindPopup(feature.properties.Name,{offset:new L.point(0, -30)}).openPopup();
+                        }
+                    });
+                }).on('mouseout', function(e) {
+                   filterIconEvent(e,this,function(){
+                        this.closePopup();
+                    });
                 })
             }
         });
@@ -120,10 +164,18 @@ $(document).ready(function() {
                     $('#descriptionText').text(feature.properties.Description);
                     $('#myModalLabel').text(feature.properties.Name);
                     $('#myModal').modal();
-                }).on('mouseover', function() {
-                    this.bindPopup(feature.properties.Name).openPopup();
-                }).on('mouseout', function() {
-                    this.closePopup();
+                }).on('mouseover', function(e) {
+                    filterIconEvent(e,this,function(){
+                        if(this.getPopup() && this.getPopup()._isOpen){
+                            return;
+                        } else {
+                            this.bindPopup(feature.properties.Name,{offset:new L.point(0, -30)}).openPopup();
+                        }
+                    });
+                }).on('mouseout', function(e) {
+                    filterIconEvent(e,this,function(){
+                        this.closePopup();
+                    });
                 })
             }
         });
@@ -141,16 +193,14 @@ $(document).ready(function() {
 
         //TODO what is there here for?    
         for (i in map._layers) {
-
-            if (typeof(map._layers[i].feature) != 'undefined') {
-                
+            if (typeof(map._layers[i].feature) != 'undefined') {    
                     //console.log(map._layers[i].feature.properties.Name)
-                }
             }
+        }
             
-            if(window.location.hash.substr(1)!=''){
-                map._layers[7].fire('click');
-            }
+        if(window.location.hash.substr(1)!=''){
+            map._layers[7].fire('click');
+        }
 
     }); //end promise
 
@@ -281,10 +331,6 @@ $(document).ready(function() {
             });
         }
 
-    });
-
-    $("#search-btn").click(function(){
-        $typeahead.typeahead("open");
     });
 
 
